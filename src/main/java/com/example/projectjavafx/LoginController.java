@@ -17,7 +17,7 @@ public class LoginController {
     //Atributos de clase
     private static App app;
     static boolean flag = false;
-    Database db = new Database();
+    private Database db = new Database();
 
     //Atributos de la interfaz
     @FXML

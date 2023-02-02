@@ -3,6 +3,7 @@ package com.example.projectjavafx;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
@@ -28,6 +29,19 @@ public class Database {
         return connection;
     }
 
+    // Accede a los nombres de los users y los devuelve en una lista
+    protected List<String> getAllNames() throws SQLException {
+        Connection connection = Database.getConnection();
+        List<String> names = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement("SELECT username FROM users")) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    names.add(resultSet.getString("username"));
+                }
+            }
+        }
+        return names;
+    }
     // Verificar si existe el usuario
     protected boolean UserExist(String username) throws SQLException {
         Connection connection = Database.getConnection();

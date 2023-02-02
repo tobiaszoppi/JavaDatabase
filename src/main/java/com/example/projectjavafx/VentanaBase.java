@@ -6,9 +6,9 @@ import javafx.stage.Stage;
 public class VentanaBase {
     Stage window;
 
-    public VentanaBase(String title) {
+    public VentanaBase(String title, Modality modality) {
         window = new Stage();
-        window.initModality(Modality.APPLICATION_MODAL);
+        window.initModality(modality);
         window.setTitle(title);
     }
 

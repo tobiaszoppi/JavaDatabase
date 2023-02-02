@@ -31,7 +31,7 @@ public class HomePageScene {
 
                 // Agregar el segundo MyMenuBar a la escena
                 List<MenuInfo> menus2 = new ArrayList<>();
-                menus2.add(new MenuInfo("Edit", Arrays.asList("Cut", "Copy", "Paste")));
+                menus2.add(new MenuInfo("Usuario", Arrays.asList("Nuevo Usuario", "Gestionar Usuarios")));
                 MyMenuBar myMenuBar2 = new MyMenuBar(menus2);
                 MenuItemHandler menuItemHandler2 = new MenuItemHandler();
 

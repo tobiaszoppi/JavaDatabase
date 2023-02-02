@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 
 public class VentanaRegistro extends VentanaBase {
 
@@ -18,7 +19,7 @@ public class VentanaRegistro extends VentanaBase {
     private Button closeBtn;
 
     public VentanaRegistro() {
-        super("Registrar usuario");
+        super("Registrar usuario", Modality.APPLICATION_MODAL);
 
         label = new Label("Ingresar Nombre de Usuario y Contraseña");
         user = new TextField();

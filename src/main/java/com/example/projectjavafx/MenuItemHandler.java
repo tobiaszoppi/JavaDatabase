@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.MenuItem;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,9 +32,14 @@ public class MenuItemHandler implements EventHandler<ActionEvent> {
             }
         });
 
-        actions.put("Save", new Runnable() {
+        actions.put("Gestionar Usuarios", new Runnable() {
             @Override
             public void run() {
+                try {
+                    new VentanaGestionarUsuarios();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
