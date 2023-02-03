@@ -66,6 +66,14 @@ public class Database {
             return statement.executeUpdate() == 1;
         }
     }
+
+    protected boolean deleteUser(String username) throws SQLException {
+        Connection connection = Database.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement("DELETE FROM users WHERE username = ?")) {
+            statement.setString(1, username);
+            return statement.executeUpdate() == 1;
+        }
+    }
     // Comparar securePasswords.
     protected boolean checkPassword(String user, String password) {
         boolean result = false;

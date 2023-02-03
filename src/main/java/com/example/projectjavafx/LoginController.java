@@ -13,7 +13,6 @@ testear el create user.
  */
 
 public class LoginController {
-
     //Atributos de clase
     private static App app;
     static boolean flag = false;
@@ -45,7 +44,6 @@ public class LoginController {
             return false;
         }
     }
-
     protected void logout() {
         app.showLoginScene();
         flag = false;
@@ -77,7 +75,4 @@ public class LoginController {
             db.showErrorAlert("Login", "Error en el login", "Usuario o contraseña incorrectos");
         }
     }
-
-
-
 }
