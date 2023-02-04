@@ -50,6 +50,10 @@ public class LoginController {
     }
     protected boolean handleRegistration(String username, String password) throws SQLException {
         try {
+            if (username.isBlank() || password.isBlank()) {
+                db.showErrorAlert("Error", "Error de registro", "Error de registro: No se ha introducido ningun usuario o contraseña");
+                return false;
+            }
             if (db.UserExist(username)) {
                 db.showErrorAlert("Registro", "Error en el registro","Usuario " + username +" ya existe");
             } else if (db.createUser(username, password)) {

@@ -31,12 +31,18 @@ public class MenuItemHandler implements EventHandler<ActionEvent> {
                     System.out.println("Logout");
             }
         });
-
+        actions.put("Nuevo Usuario", new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("Nuevo Usuario");
+                new VentanaCrearUsuarioVista();
+            }
+        });
         actions.put("Gestionar Usuarios", new Runnable() {
             @Override
             public void run() {
                 try {
-                    new VentanaGestionarUsuarios();
+                    new VentanaGestionarUsuariosVista();
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }

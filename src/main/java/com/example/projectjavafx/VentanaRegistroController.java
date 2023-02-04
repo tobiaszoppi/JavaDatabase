@@ -5,7 +5,7 @@ import java.sql.SQLException;
 public class VentanaRegistroController {
     public VentanaRegistroController() {
         LoginController loginController = new LoginController();
-        VentanaRegistro ventana = new VentanaRegistro();
+        VentanaRegistroVista ventana = new VentanaRegistroVista("Crear Usuario");
 
         ventana.getRegisterBtn().setOnAction(e -> {
             try {

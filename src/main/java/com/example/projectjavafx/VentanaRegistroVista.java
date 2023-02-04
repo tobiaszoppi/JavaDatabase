@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 
-public class VentanaRegistro extends VentanaBase {
+public class VentanaRegistroVista extends VentanaBase {
 
     private Label label;
     private TextField user;
@@ -18,8 +18,8 @@ public class VentanaRegistro extends VentanaBase {
     private Button registerBtn;
     private Button closeBtn;
 
-    public VentanaRegistro() {
-        super("Registrar usuario", Modality.APPLICATION_MODAL);
+    public VentanaRegistroVista(String crearUsuario) {
+        super(crearUsuario, Modality.APPLICATION_MODAL);
 
         label = new Label("Ingresar Nombre de Usuario y Contraseña");
         user = new TextField();

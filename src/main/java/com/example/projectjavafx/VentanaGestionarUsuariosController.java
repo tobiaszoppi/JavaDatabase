@@ -43,15 +43,3 @@ public class VentanaGestionarUsuariosController {
         }
     }
 }
-
-/*
-    private List<Usuario> obtenerUsuarios() throws SQLException {
-        List<String> nombres = db.getAllNames();
-        List<Usuario> usuarios = new ArrayList<>();
-        for (String nombre : nombres) {
-            usuarios.add(new Usuario(nombre));
-        }
-        Collections.sort(usuarios);
-        return usuarios;
-    }
-*/

@@ -10,27 +10,33 @@ import javafx.stage.Modality;
 
 import java.sql.SQLException;
 
-public class VentanaGestionarUsuarios extends VentanaBase {
+public class VentanaGestionarUsuariosVista extends VentanaBase {
     private TableView<Usuario> tablaUsuarios;
     private VentanaGestionarUsuariosController controller;
 
-    public VentanaGestionarUsuarios() throws SQLException {
-        super("Gestionar Usuarios", Modality.WINDOW_MODAL);
+    public VentanaGestionarUsuariosVista() throws SQLException {
+        super("Gestionar Usuarios", Modality.APPLICATION_MODAL);
 
         controller = new VentanaGestionarUsuariosController();
-
+        inicializarTabla();
+        agregarDatosATabla();
+        agregarBotonEliminar();
+        mostrarVentana();
+    }
+    private void inicializarTabla() {
         tablaUsuarios = new TableView<>();
         TableColumn<Usuario, String> colNombre = new TableColumn<>("Nombre");
         colNombre.setCellValueFactory(new PropertyValueFactory<>("username"));
         tablaUsuarios.getColumns().add(colNombre);
+    }
 
-        TableColumn<Usuario, Button> colBoton = new TableColumn<>("Delete");
-
-        // Asignar los datos de los usuarios a la tabla
-        tablaUsuarios.getColumns().add(colBoton);
+    private void agregarDatosATabla() {
         tablaUsuarios.setItems(controller.getUsuarios());
+    }
 
-        // Asignar los botones a la tabla
+    private void agregarBotonEliminar() {
+        TableColumn<Usuario, Button> colBoton = new TableColumn<>("Delete");
+        tablaUsuarios.getColumns().add(colBoton);
         colBoton.setCellFactory(param -> new TableCell<Usuario, Button>() {
             private final Button deleteButton = new Button("Delete");
 
@@ -52,11 +58,11 @@ public class VentanaGestionarUsuarios extends VentanaBase {
                 });
             }
         });
-
-        // Agregar la tabla a la escena y mostrar la ventana
-        Scene scene = new Scene(tablaUsuarios, 400, 300);
-        window.setScene(scene);
-        window.show();
     }
 
+    private void mostrarVentana() {
+        Scene escena = new Scene(tablaUsuarios, 400, 300);
+        window.setScene(escena);
+        window.show();
+    }
 }
