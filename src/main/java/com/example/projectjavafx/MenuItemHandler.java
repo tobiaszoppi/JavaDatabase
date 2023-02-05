@@ -34,8 +34,7 @@ public class MenuItemHandler implements EventHandler<ActionEvent> {
         actions.put("Nuevo Usuario", new Runnable() {
             @Override
             public void run() {
-                System.out.println("Nuevo Usuario");
-                new VentanaCrearUsuarioVista();
+                new VentanaCrearUsuarioController();
             }
         });
         actions.put("Gestionar Usuarios", new Runnable() {

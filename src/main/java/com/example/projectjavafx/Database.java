@@ -92,8 +92,10 @@ public class Database {
         }
         return result;
     }
-
-
+    // Preguntar si el usuario es admin.
+    public boolean isAdmin(String username) {
+        return false;
+    }
     // Alertas
     protected void showConfirmationAlert(String title, String header, String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

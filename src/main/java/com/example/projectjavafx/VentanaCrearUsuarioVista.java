@@ -8,8 +8,8 @@ import javafx.scene.layout.VBox;
 public class VentanaCrearUsuarioVista extends VentanaRegistroVista {
     private Label label;
 
-    public VentanaCrearUsuarioVista() {
-        super("Crear Usuario Config");
+    public VentanaCrearUsuarioVista(String crearUsuario) {
+        super(crearUsuario);
         label = new Label("Ingrese el nombre y contraseña del usuario a crear");
 
         // Para controlar la posicion de los nuevos objetos en
