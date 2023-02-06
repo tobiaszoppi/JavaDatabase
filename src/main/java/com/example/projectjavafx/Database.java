@@ -7,7 +7,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
+    private static Database instance;
+    private Connection connection;
 
+    private Database() throws SQLException {
+        String url = "jdbc:mysql://127.0.0.1:3306/kiosco";
+        String user = "root";
+        String pass = "643851";
+        connection = DriverManager.getConnection(url, user, pass);
+
+        // Verificar si existe la base de datos
+        DatabaseMetaData dbm = connection.getMetaData();
+        ResultSet tables = dbm.getTables(null, null, "kiosco", null);
+        if (tables.next()) {
+            System.out.println("Creando base de datos...");
+            try (Statement st = connection.createStatement()) {
+                st.executeUpdate("CREATE DATABASE kiosco");
+            }
+        } else {
+            System.out.println("Base de datos existente, ingresando...");
+        }
+    }
+
+    public static Database getInstance() throws SQLException {
+        if (instance == null) {
+            instance = new Database();
+        }
+        return instance;
+    }
+
+    public Connection getConnection() {
+        return connection;
+    }
+
+    /*
     private static Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://127.0.0.1:3306/kiosco";
         String user = "root";
@@ -29,9 +62,10 @@ public class Database {
         return connection;
     }
 
+     */
+
     // Accede a los nombres de los users y los devuelve en una lista
     protected List<String> getAllNames() throws SQLException {
-        Connection connection = Database.getConnection();
         List<String> names = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement("SELECT username FROM users")) {
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -44,7 +78,6 @@ public class Database {
     }
     // Verificar si existe el usuario
     protected boolean UserExist(String username) throws SQLException {
-        Connection connection = Database.getConnection();
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE username = ?")) {
             statement.setString(1, username);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -54,7 +87,6 @@ public class Database {
     }
     // Insertar usuario a la db
     protected boolean createUser(String username, String password) throws SQLException {
-        Connection connection = Database.getConnection();
         PassEnc p = new PassEnc();
 
         List<String> passData = p.createPassword(password);
@@ -66,36 +98,54 @@ public class Database {
             return statement.executeUpdate() == 1;
         }
     }
-
+    // Eliminar usuario
     protected boolean deleteUser(String username) throws SQLException {
-        Connection connection = Database.getConnection();
         try (PreparedStatement statement = connection.prepareStatement("DELETE FROM users WHERE username = ?")) {
             statement.setString(1, username);
             return statement.executeUpdate() == 1;
         }
     }
     // Comparar securePasswords.
-    protected boolean checkPassword(String user, String password) {
-        boolean result = false;
-        try (Connection connection = Database.getConnection();
-             PreparedStatement statement = connection.prepareStatement("SELECT securePassword, saltValue FROM users WHERE username = ?")) {
-            statement.setString(1, user);
+    protected boolean checkPassword(String username, String password) {
+        try (PreparedStatement statement = connection.prepareStatement("SELECT securePassword, saltValue FROM users WHERE username = ?")) {
+            statement.setString(1, username);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     String storedSecurePassword = resultSet.getString("securePassword");
                     String storedSaltValue = resultSet.getString("saltValue");
-                    result = PassBasedEnc.verifyUserPassword(password, storedSecurePassword, storedSaltValue);
+                    return PassBasedEnc.verifyUserPassword(password, storedSecurePassword, storedSaltValue);
                 }
             }
         } catch (SQLException e) {
             System.out.println("Error al verificar sesión: " + e.getMessage());
         }
-        return result;
+        return false;
     }
     // Preguntar si el usuario es admin.
     protected boolean isAdmin(String username) {
+        try (PreparedStatement statement = connection.prepareStatement("SELECT isAdmin FROM users WHERE username = ?")) {
+                statement.setString(1, username);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        return true;
+                    }
+                }
+        } catch (SQLException e) {
+            System.out.println("Error al verificar permisos de Administrador: " + e.getMessage());
+        }
         return false;
     }
+    // Set admin
+    protected boolean setAdmin(String username) {
+        try (PreparedStatement statement = connection.prepareStatement("UPDATE users SET isAdmin = 1 WHERE username = ?")) {
+                statement.setString(1, username);
+                return statement.executeUpdate() == 1;
+             } catch (SQLException e) {
+                System.out.println("Error al setear admin: " + e.getMessage());
+        }
+        return false;
+    }
+
     // Alertas
     protected void showConfirmationAlert(String title, String header, String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

@@ -16,7 +16,14 @@ public class LoginController {
     //Atributos de clase
     private static App app;
     static boolean flag = false;
-    private Database db = new Database();
+    Database db;
+    {
+        try {
+            db = Database.getInstance();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     //Atributos de la interfaz
     @FXML
@@ -33,10 +40,9 @@ public class LoginController {
 
     // Metodos generales
     public void setApp(App app) {
-        this.app = app;
+        LoginController.app = app;
     }
     protected boolean isloggedIn() {
-
         if (flag) {
             return true;
         } else {
@@ -69,7 +75,7 @@ public class LoginController {
     }
 
     @FXML
-    protected void onLoginBttn() throws SQLException {
+    protected void onLoginBttn() {
         if (db.checkPassword(userLogin.getText(), passLogin.getText())) {
             System.out.println("Login OK");
             flag = true; // flag

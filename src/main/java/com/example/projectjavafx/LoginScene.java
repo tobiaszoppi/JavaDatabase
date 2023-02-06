@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LoginScene {
-    private Stage stage;
+    private final Stage stage;
     public LoginScene(Stage stage, App app) {
         this.stage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("loginScene.fxml"));

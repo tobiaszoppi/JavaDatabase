@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class HomePageScene {
-    private Stage stage;
+    private final Stage stage;
 
     public HomePageScene(Stage stage) {
         this.stage = stage;

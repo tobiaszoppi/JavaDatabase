@@ -1,8 +1,17 @@
 package com.example.projectjavafx;
 
+import java.sql.SQLException;
+
 public class Usuario implements Comparable<Usuario> {
     public String username;
-    private Database db = new Database();
+    Database db;
+    {
+        try {
+            db = Database.getInstance();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public Usuario(String username) {
         this.username = username;

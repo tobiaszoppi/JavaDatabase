@@ -3,8 +3,8 @@ package com.example.projectjavafx;
 import java.util.List;
 
 class MenuInfo {
-    private String name;
-    private List<String> menuItems;
+    private final String name;
+    private final List<String> menuItems;
 
     public MenuInfo(String name, List<String> menuItems) {
         this.name = name;
