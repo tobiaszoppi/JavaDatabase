@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    //private static Connection connection;
-    public static Connection getConnection() throws SQLException {
+
+    private static Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://127.0.0.1:3306/kiosco";
         String user = "root";
         String pass = "643851";
@@ -93,7 +93,7 @@ public class Database {
         return result;
     }
     // Preguntar si el usuario es admin.
-    public boolean isAdmin(String username) {
+    protected boolean isAdmin(String username) {
         return false;
     }
     // Alertas

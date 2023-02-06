@@ -20,19 +20,26 @@ public class VentanaRegistroVista extends VentanaBase {
 
     public VentanaRegistroVista(String crearUsuario) {
         super(crearUsuario, Modality.APPLICATION_MODAL);
+        initComponents();
+        addComponentsToLayout();
+    }
 
+    private void initComponents() {
         label = new Label("Ingresar Nombre de Usuario y Contraseña");
         user = new TextField();
         pass = new PasswordField();
         registerBtn = new Button("Registrar");
         closeBtn = new Button("Cerrar");
+    }
 
+    private void addComponentsToLayout() {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, user, pass, registerBtn, closeBtn);
         layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout, 300, 250);
         window.setScene(scene);
     }
+
     public TextField getUser() {
         return user;
     }
