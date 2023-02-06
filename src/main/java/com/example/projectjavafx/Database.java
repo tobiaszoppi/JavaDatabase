@@ -15,7 +15,6 @@ public class Database {
         String user = "root";
         String pass = "643851";
         connection = DriverManager.getConnection(url, user, pass);
-
         // Verificar si existe la base de datos
         DatabaseMetaData dbm = connection.getMetaData();
         ResultSet tables = dbm.getTables(null, null, "kiosco", null);
@@ -28,41 +27,15 @@ public class Database {
             System.out.println("Base de datos existente, ingresando...");
         }
     }
-
     public static Database getInstance() throws SQLException {
         if (instance == null) {
             instance = new Database();
         }
         return instance;
     }
-
     public Connection getConnection() {
         return connection;
     }
-
-    /*
-    private static Connection getConnection() throws SQLException {
-        String url = "jdbc:mysql://127.0.0.1:3306/kiosco";
-        String user = "root";
-        String pass = "643851";
-        Connection connection = DriverManager.getConnection(url, user, pass);
-
-        // Verificar si existe la base de datos
-        DatabaseMetaData dbm = connection.getMetaData();
-        ResultSet tables = dbm.getTables(null, null, "kiosco", null);
-        if (tables.next()) {
-            System.out.println("Creando base de datos...");
-            try (Statement st = connection.createStatement()) {
-                st.executeUpdate("CREATE DATABASE kiosco");
-            }
-        } else {
-            System.out.println("Base de datos existente, ingresando...");
-        }
-
-        return connection;
-    }
-
-     */
 
     // Accede a los nombres de los users y los devuelve en una lista
     protected List<String> getAllNames() throws SQLException {
