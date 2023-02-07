@@ -3,13 +3,13 @@ package com.example.projectjavafx;
 import java.sql.SQLException;
 
 public class VentanaCrearUsuarioController {
-    public VentanaCrearUsuarioController() {
-        LoginController loginController = new LoginController();
+    public VentanaCrearUsuarioController() throws SQLException {
+        UserServices userServices = new UserServices();
         VentanaCrearUsuarioVista ventana = new VentanaCrearUsuarioVista("Crear Usuario");
 
         ventana.getRegisterBtn().setOnAction(e -> {
             try {
-                if (loginController.handleRegistration(ventana.getUser().getText(), ventana.getPass().getText())) {
+                if (userServices.handleRegistration(ventana.getUser().getText(), ventana.getPass().getText())) {
                     ventana.close();
                 }
             } catch (SQLException ex) {

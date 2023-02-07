@@ -24,7 +24,7 @@ public class LoginScene {
             Parent root = fxmlLoader.load();
             scene = new Scene(root);
             loginController = fxmlLoader.getController();
-            loginController.setApp(app);
+            Session.getInstance().setApp(app);
         } catch (IOException e) {
             e.printStackTrace();
         }

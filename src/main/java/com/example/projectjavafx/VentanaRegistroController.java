@@ -3,22 +3,22 @@ package com.example.projectjavafx;
 import java.sql.SQLException;
 
 public class VentanaRegistroController {
-    public VentanaRegistroController() {
-        LoginController loginController = new LoginController();
+    public VentanaRegistroController() throws SQLException {
+        UserServices userServices = new UserServices();
         VentanaRegistroVista ventana = new VentanaRegistroVista("Crear Usuario");
 
-        addEventHandlers(ventana, loginController);
+        addEventHandlers(ventana, userServices);
         ventana.show();
     }
 
-    private void addEventHandlers(VentanaRegistroVista ventana, LoginController loginController) {
-        ventana.getRegisterBtn().setOnAction(e -> handleRegistration(ventana, loginController));
+    private void addEventHandlers(VentanaRegistroVista ventana, UserServices userServices) {
+        ventana.getRegisterBtn().setOnAction(e -> handleRegistration(ventana, userServices));
         ventana.getCloseBtn().setOnAction(e -> ventana.close());
     }
 
-    private void handleRegistration(VentanaRegistroVista ventana, LoginController loginController) {
+    private void handleRegistration(VentanaRegistroVista ventana, UserServices userServices) {
         try {
-            if (loginController.handleRegistration(ventana.getUser().getText(), ventana.getPass().getText())) {
+            if (userServices.handleRegistration(ventana.getUser().getText(), ventana.getPass().getText())) {
                 ventana.close();
             }
         } catch (SQLException ex) {

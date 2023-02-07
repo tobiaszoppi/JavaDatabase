@@ -1,7 +1,5 @@
 package com.example.projectjavafx;
 
-import javafx.scene.control.Alert;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -43,21 +41,5 @@ public class DatabaseService {
 
     public boolean setAdmin(String username) {
         return db.setAdmin(username);
-    }
-
-    // Alertas
-    public void showConfirmationAlert(String title, String header, String message) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-    public void showErrorAlert(String title, String header, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(header);
-        alert.setTitle(title);
-        alert.setContentText(message);
-        alert.show();
     }
 }

@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class MenuItemHandler implements EventHandler<ActionEvent> {
     private Map<String, Runnable> actions;
-    LoginController loginController = new LoginController();
 
     public MenuItemHandler() {
         actions = new HashMap<>();
@@ -19,22 +18,30 @@ public class MenuItemHandler implements EventHandler<ActionEvent> {
 
             @Override
             public void run() {
-                new VentanaRegistroController();
+                try {
+                    new VentanaRegistroController();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
         actions.put("Logout", new Runnable() {
             @Override
             public void run() {
-                if (loginController.isLoggedIn())
-                    loginController.logout();
+                if (Session.getInstance().isLoggedIn())
+                    Session.getInstance().logout();
                     System.out.println("Logout");
             }
         });
         actions.put("Nuevo Usuario", new Runnable() {
             @Override
             public void run() {
-                new VentanaCrearUsuarioController();
+                try {
+                    new VentanaCrearUsuarioController();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         actions.put("Gestionar Usuarios", new Runnable() {
