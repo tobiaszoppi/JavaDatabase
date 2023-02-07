@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 public class LoginController {
     private UserServices userServices;
+    private MessageService messageService = new MessageService();
     @FXML
     private PasswordField passLogin;
     @FXML
@@ -35,7 +36,6 @@ public class LoginController {
             Session.getInstance().getApp().showHomePage();
         } else {
             System.out.println("Login KO");
-
         }
     }
 }

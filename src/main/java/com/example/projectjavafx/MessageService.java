@@ -21,10 +21,5 @@ public class MessageService {
 }
 
 /*
-showErrorAlert("Registro", "Error en el registro", "Usuario " + username + " no registrado");
-showConfirmationAlert("Registro", "Registro exitoso", "Usuario " + username + " registrado correctamente, ya puede iniciar sesión!");
-showErrorAlert("Registro", "Error en el registro", "Usuario " + username + " ya existe");
-showErrorAlert("Error", "Error de registro", "Error de registro: No se ha introducido ningún usuario o contraseña");
-db.showErrorAlert("Error", "Error de sesión", "Error de sesión: no se encuentra dentro de una sesión");
-  db.showErrorAlert("Login", "Error en el login", "Usuario o contraseña incorrectos");
+messageService.showErrorAlert("Error", "Error de sesión", "Error de sesión: no se encuentra dentro de una sesión");
  */
