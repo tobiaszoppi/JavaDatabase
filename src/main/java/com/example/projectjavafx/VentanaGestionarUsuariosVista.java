@@ -37,7 +37,7 @@ public class VentanaGestionarUsuariosVista extends VentanaBase {
     private void agregarBotonEliminar() {
         TableColumn<Usuario, Button> colBoton = new TableColumn<>("Delete");
         tablaUsuarios.getColumns().add(colBoton);
-        colBoton.setCellFactory(param -> new TableCell<Usuario, Button>() {
+        colBoton.setCellFactory(param -> new TableCell<>() {
             private final Button deleteButton = new Button("Delete");
 
             @Override

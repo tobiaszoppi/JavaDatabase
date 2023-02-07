@@ -10,7 +10,7 @@ import java.util.List;
 public class VentanaGestionarUsuariosController {
     // Atributos de clase
     private final ObservableList<Usuario> usuarios;
-    Database db = Database.getInstance();
+    DatabaseService db = new DatabaseService();
 
     // Metodos de clase para acceder a la lista de usuarios:
     public VentanaGestionarUsuariosController() throws SQLException {

@@ -26,7 +26,7 @@ public class MenuItemHandler implements EventHandler<ActionEvent> {
         actions.put("Logout", new Runnable() {
             @Override
             public void run() {
-                if (loginController.isloggedIn())
+                if (loginController.isLoggedIn())
                     loginController.logout();
                     System.out.println("Logout");
             }

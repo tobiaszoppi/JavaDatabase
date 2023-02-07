@@ -1,7 +1,5 @@
 package com.example.projectjavafx;
 
-import javafx.scene.control.Alert;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +48,7 @@ public class Database {
         return names;
     }
     // Verificar si existe el usuario
-    protected boolean UserExist(String username) throws SQLException {
+    protected boolean userExist(String username) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE username = ?")) {
             statement.setString(1, username);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -99,7 +97,7 @@ public class Database {
         try (PreparedStatement statement = connection.prepareStatement("SELECT isAdmin FROM users WHERE username = ?")) {
                 statement.setString(1, username);
                 try (ResultSet resultSet = statement.executeQuery()) {
-                    if (resultSet.next()) {
+                    if (resultSet.next() && resultSet.getBoolean("isAdmin") == true) {
                         return true;
                     }
                 }
@@ -119,20 +117,4 @@ public class Database {
         return false;
     }
 
-    // Alertas
-    protected void showConfirmationAlert(String title, String header, String message) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText(title);
-        alert.setTitle(header);
-        alert.setContentText(message);
-        alert.show();
-    }
-
-    protected void showErrorAlert(String title, String header, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(header);
-        alert.setTitle(title);
-        alert.setContentText(message);
-        alert.show();
-    }
 }

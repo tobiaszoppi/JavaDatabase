@@ -12,34 +12,37 @@ import java.util.List;
 
 public class LoginScene {
     private final Stage stage;
+    private MyMenuBar myMenuBar;
+    private LoginController loginController;
+    private Scene scene;
+
     public LoginScene(Stage stage, App app) {
         this.stage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("loginScene.fxml"));
 
         try {
             Parent root = fxmlLoader.load();
-            Scene scene = new Scene(root);
-
-                // Agregar MyMenuBar a la escena
-                List<MenuInfo> menus = new ArrayList<>();
-                menus.add(new MenuInfo("File", Arrays.asList("Register", "Logout")));
-                menus.add(new MenuInfo("Help", Arrays.asList("About")));
-                MyMenuBar myMenuBar = new MyMenuBar(menus);
-                MenuItemHandler menuItemHandler = new MenuItemHandler();
-
-                myMenuBar.setEventHandler(menuItemHandler);
-
-            LoginController loginController = fxmlLoader.getController();
+            scene = new Scene(root);
+            loginController = fxmlLoader.getController();
             loginController.setApp(app);
-            loginController.init(myMenuBar);
-
-            stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void show() {
+        createMyMenuBar();
+        loginController.init(myMenuBar);
+        stage.setScene(scene);
         stage.show();
+    }
+
+    private void createMyMenuBar() {
+        List<MenuInfo> menus = new ArrayList<>();
+        menus.add(new MenuInfo("File", Arrays.asList("Register", "Logout")));
+        menus.add(new MenuInfo("Help", Arrays.asList("About")));
+        myMenuBar = new MyMenuBar(menus);
+        MenuItemHandler menuItemHandler = new MenuItemHandler();
+        myMenuBar.setEventHandler(menuItemHandler);
     }
 }

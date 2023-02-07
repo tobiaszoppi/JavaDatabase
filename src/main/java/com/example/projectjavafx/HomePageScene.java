@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,36 +14,36 @@ public class HomePageScene {
 
     public HomePageScene(Stage stage) {
         this.stage = stage;
+        loadScene();
+    }
+
+    private void loadScene() {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("homeScen.fxml"));
 
         try {
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
-
-                // Agregar el primer MyMenuBar a la escena
-                List<MenuInfo> menus = new ArrayList<>();
-                menus.add(new MenuInfo("File", Arrays.asList("Logout", "Open")));
-                MyMenuBar myMenuBar = new MyMenuBar(menus);
-                MenuItemHandler menuItemHandler = new MenuItemHandler();
-
-                myMenuBar.setEventHandler(menuItemHandler);
-
-                // Agregar el segundo MyMenuBar a la escena
-                List<MenuInfo> menus2 = new ArrayList<>();
-                menus2.add(new MenuInfo("Usuario", Arrays.asList("Nuevo Usuario", "Gestionar Usuarios")));
-                MyMenuBar myMenuBar2 = new MyMenuBar(menus2);
-                MenuItemHandler menuItemHandler2 = new MenuItemHandler();
-
-                myMenuBar2.setEventHandler(menuItemHandler2);
-
-            HomePageController homePageController = fxmlLoader.getController();
-            homePageController.init(myMenuBar, myMenuBar2);
-
+            addMyMenuBarToScene(scene, fxmlLoader);
             stage.setScene(scene);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void show() {stage.show();}
+    private void addMyMenuBarToScene(Scene scene, FXMLLoader fxmlLoader) {
+        List<MenuInfo> menus1 = Arrays.asList(new MenuInfo("File", Arrays.asList("Logout", "Open")));
+        MyMenuBar myMenuBar1 = new MyMenuBar(menus1);
+        myMenuBar1.setEventHandler(new MenuItemHandler());
+
+        List<MenuInfo> menus2 = Arrays.asList(new MenuInfo("Usuario", Arrays.asList("Nuevo Usuario", "Gestionar Usuarios")));
+        MyMenuBar myMenuBar2 = new MyMenuBar(menus2);
+        myMenuBar2.setEventHandler(new MenuItemHandler());
+
+        HomePageController homePageController = fxmlLoader.getController();
+        homePageController.init(myMenuBar1, myMenuBar2);
+    }
+
+    public void show() {
+        stage.show();
+    }
 }

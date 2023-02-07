@@ -7,25 +7,10 @@ import javafx.scene.layout.BorderPane;
 
 import java.sql.SQLException;
 
-/*
-terminar de pasar los metodos a database y hacer el algoritmo,
-testear el create user.
- */
-
 public class LoginController {
-    //Atributos de clase
     private static App app;
-    static boolean flag = false;
-    Database db;
-    {
-        try {
-            db = Database.getInstance();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    //Atributos de la interfaz
+    private static boolean flag = false;
+    private DatabaseService db;
     @FXML
     private PasswordField passLogin;
     @FXML
@@ -33,52 +18,64 @@ public class LoginController {
     @FXML
     private BorderPane borderPane;
 
-    // Metodos de la interfaz
+    public LoginController() {
+        db = new DatabaseService();
+    }
+
     public void init(MyMenuBar menuBar) {
         borderPane.setTop(menuBar.getMenuBar());
     }
 
-    // Metodos generales
     public void setApp(App app) {
         LoginController.app = app;
     }
-    protected boolean isloggedIn() {
+
+    protected void showErrorAlert(String title, String headerText, String contentText) {
+        db.showErrorAlert(title, headerText, contentText);
+    }
+
+    protected boolean isLoggedIn() {
         if (flag) {
             return true;
         } else {
-            db.showErrorAlert("Error", "Error de sesion", "Error de sesion: no se encuentra dentro de una sesion");
+            showErrorAlert("Error", "Error de sesión", "Error de sesión: no se encuentra dentro de una sesión");
             return false;
         }
     }
+
     protected void logout() {
         app.showLoginScene();
         flag = false;
     }
+
     protected boolean handleRegistration(String username, String password) throws SQLException {
-        try {
-            if (username.isBlank() || password.isBlank()) {
-                db.showErrorAlert("Error", "Error de registro", "Error de registro: No se ha introducido ningun usuario o contraseña");
-                return false;
-            }
-            if (db.UserExist(username)) {
-                db.showErrorAlert("Registro", "Error en el registro","Usuario " + username +" ya existe");
-            } else if (db.createUser(username, password)) {
-                db.showConfirmationAlert("Registro","Registro exitoso", "Usuario " + username + " registrado correctamente, ya puede iniciar sesión!");
-                return true;
-            } else {
-                db.showErrorAlert("Registro","Error en el registro", "Usuario " + username + " no registrado");
-            }
-        } catch (SQLException ex) {
-            db.showErrorAlert("Registro", "Error en el registro", "Error al conectarse a la base de datos: " + ex.getMessage());
+        if (username.isBlank() || password.isBlank()) {
+            showErrorAlert("Error", "Error de registro", "Error de registro: No se ha introducido ningún usuario o contraseña");
+            return false;
         }
-        return false;
+
+        if (db.userExist(username)) {
+            showErrorAlert("Registro", "Error en el registro", "Usuario " + username + " ya existe");
+            return false;
+        }
+
+        if (db.createUser(username, password)) {
+            db.showConfirmationAlert("Registro", "Registro exitoso", "Usuario " + username + " registrado correctamente, ya puede iniciar sesión!");
+            return true;
+        } else {
+            db.showErrorAlert("Registro", "Error en el registro", "Usuario " + username + " no registrado");
+            return false;
+        }
     }
 
     @FXML
-    protected void onLoginBttn() {
+    protected void onLoginBttn() throws SQLException {
         if (db.checkPassword(userLogin.getText(), passLogin.getText())) {
             System.out.println("Login OK");
-            flag = true; // flag
+            flag = true;
+            Session session = Session.getInstance();
+            session.setUsername(userLogin.getText());
+            session.setIsAdmin(db.isAdmin(userLogin.getText()));
             app.showHomePage();
         } else {
             System.out.println("Login KO");
