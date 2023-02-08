@@ -40,7 +40,7 @@ public class LoginScene {
     private void createMyMenuBar() {
         List<MenuInfo> menus = new ArrayList<>();
         menus.add(new MenuInfo("File", Arrays.asList("Register", "Logout")));
-        menus.add(new MenuInfo("Help", Arrays.asList("About")));
+        menus.add(new MenuInfo("Help", List.of("About")));
         myMenuBar = new MyMenuBar(menus);
         MenuItemHandler menuItemHandler = new MenuItemHandler();
         myMenuBar.setEventHandler(menuItemHandler);

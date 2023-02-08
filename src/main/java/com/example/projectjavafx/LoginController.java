@@ -9,7 +9,6 @@ import java.sql.SQLException;
 
 public class LoginController {
     private UserServices userServices;
-    private MessageService messageService = new MessageService();
     @FXML
     private PasswordField passLogin;
     @FXML

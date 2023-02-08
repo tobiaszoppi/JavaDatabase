@@ -19,7 +19,3 @@ public class MessageService {
         alert.show();
     }
 }
-
-/*
-messageService.showErrorAlert("Error", "Error de sesión", "Error de sesión: no se encuentra dentro de una sesión");
- */

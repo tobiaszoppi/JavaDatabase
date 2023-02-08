@@ -3,12 +3,12 @@ package com.example.projectjavafx;
 import java.sql.SQLException;
 
 public class UserServices {
-    private DatabaseService db;
+    private final DatabaseService db;
 
-    private MessageService messageService = new MessageService();
+    private final MessageService messageService = new MessageService();
 
-    public UserServices() throws SQLException {
-       db = new DatabaseService();
+    public UserServices() {
+        db = new DatabaseService();
     }
 
     public boolean handleRegistration(String username, String password) throws SQLException {

@@ -31,11 +31,11 @@ public class HomePageScene {
     }
 
     private void addMyMenuBarToScene(Scene scene, FXMLLoader fxmlLoader) {
-        List<MenuInfo> menus1 = Arrays.asList(new MenuInfo("File", Arrays.asList("Logout", "Open")));
+        List<MenuInfo> menus1 = List.of(new MenuInfo("File", Arrays.asList("Logout", "Open")));
         MyMenuBar myMenuBar1 = new MyMenuBar(menus1);
         myMenuBar1.setEventHandler(new MenuItemHandler());
 
-        List<MenuInfo> menus2 = Arrays.asList(new MenuInfo("Usuario", Arrays.asList("Nuevo Usuario", "Gestionar Usuarios")));
+        List<MenuInfo> menus2 = List.of(new MenuInfo("Usuario", Arrays.asList("Nuevo Usuario", "Gestionar Usuarios")));
         MyMenuBar myMenuBar2 = new MyMenuBar(menus2);
         myMenuBar2.setEventHandler(new MenuItemHandler());
 

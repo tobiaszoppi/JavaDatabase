@@ -7,7 +7,7 @@ import javafx.scene.control.MenuItem;
 import java.util.List;
 
 public class MyMenuBar {
-    private MenuBar menuBar;
+    private final MenuBar menuBar;
 
     public MyMenuBar(List<MenuInfo> menus) {
 

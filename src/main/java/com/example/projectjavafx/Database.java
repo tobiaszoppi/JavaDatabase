@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Database {
     private static Database instance;
-    private Connection connection;
+    private final Connection connection;
 
     private Database() throws SQLException {
         String url = "jdbc:mysql://127.0.0.1:3306/kiosco";
@@ -25,12 +25,14 @@ public class Database {
             System.out.println("Base de datos existente, ingresando...");
         }
     }
+
     public static Database getInstance() throws SQLException {
         if (instance == null) {
             instance = new Database();
         }
         return instance;
     }
+
     public Connection getConnection() {
         return connection;
     }
@@ -47,6 +49,7 @@ public class Database {
         }
         return names;
     }
+
     // Verificar si existe el usuario
     protected boolean userExist(String username) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE username = ?")) {
@@ -56,6 +59,7 @@ public class Database {
             }
         }
     }
+
     // Insertar usuario a la db
     protected boolean createUser(String username, String password) throws SQLException {
         PassEnc p = new PassEnc();
@@ -69,6 +73,7 @@ public class Database {
             return statement.executeUpdate() == 1;
         }
     }
+
     // Eliminar usuario
     protected boolean deleteUser(String username) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement("DELETE FROM users WHERE username = ?")) {
@@ -76,6 +81,7 @@ public class Database {
             return statement.executeUpdate() == 1;
         }
     }
+
     // Comparar securePasswords.
     protected boolean checkPassword(String username, String password) {
         try (PreparedStatement statement = connection.prepareStatement("SELECT securePassword, saltValue FROM users WHERE username = ?")) {
@@ -92,27 +98,29 @@ public class Database {
         }
         return false;
     }
+
     // Preguntar si el usuario es admin.
     protected boolean isAdmin(String username) {
         try (PreparedStatement statement = connection.prepareStatement("SELECT isAdmin FROM users WHERE username = ?")) {
-                statement.setString(1, username);
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    if (resultSet.next() && resultSet.getBoolean("isAdmin") == true) {
-                        return true;
-                    }
+            statement.setString(1, username);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next() && resultSet.getBoolean("isAdmin")) {
+                    return true;
                 }
+            }
         } catch (SQLException e) {
             System.out.println("Error al verificar permisos de Administrador: " + e.getMessage());
         }
         return false;
     }
+
     // Set admin
     protected boolean setAdmin(String username) {
         try (PreparedStatement statement = connection.prepareStatement("UPDATE users SET isAdmin = 1 WHERE username = ?")) {
-                statement.setString(1, username);
-                return statement.executeUpdate() == 1;
-             } catch (SQLException e) {
-                System.out.println("Error al setear admin: " + e.getMessage());
+            statement.setString(1, username);
+            return statement.executeUpdate() == 1;
+        } catch (SQLException e) {
+            System.out.println("Error al setear admin: " + e.getMessage());
         }
         return false;
     }

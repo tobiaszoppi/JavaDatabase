@@ -35,32 +35,34 @@ public class VentanaGestionarUsuariosVista extends VentanaBase {
     }
 
     private void agregarBotonEliminar() {
-        TableColumn<Usuario, Button> colBoton = new TableColumn<>("Delete");
-        tablaUsuarios.getColumns().add(colBoton);
-        colBoton.setCellFactory(param -> new TableCell<>() {
-            private final Button deleteButton = new Button("Delete");
+        if (Session.getInstance().isAdmin()) {
+            TableColumn<Usuario, Button> colBoton = new TableColumn<>("Delete");
+            tablaUsuarios.getColumns().add(colBoton);
+            colBoton.setCellFactory(param -> new TableCell<>() {
+                private final Button deleteButton = new Button("Delete");
 
-            @Override
-            protected void updateItem(Button item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                    return;
-                }
-                setGraphic(deleteButton);
-                deleteButton.setOnAction(event -> {
-                    Usuario usuario = getTableView().getItems().get(getIndex());
-                    try {
-                        controller.deleteUsuario(usuario);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
+                @Override
+                protected void updateItem(Button item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        return;
                     }
-                });
-            }
-        });
+                    setGraphic(deleteButton);
+                    deleteButton.setOnAction(event -> {
+                        Usuario usuario = getTableView().getItems().get(getIndex());
+                        try {
+                            controller.deleteUsuario(usuario);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            });
+        }
     }
 
-    private void mostrarVentana() {
+    public void mostrarVentana() {
         Scene escena = new Scene(tablaUsuarios, 400, 300);
         window.setScene(escena);
         window.show();

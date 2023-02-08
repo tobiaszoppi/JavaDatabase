@@ -15,8 +15,8 @@ public class VentanaRegistroVista extends VentanaBase {
     private Label label;
     private TextField user;
     private PasswordField pass;
-    private Button registerBtn;
-    private Button closeBtn;
+    protected Button registerBtn;
+    protected Button closeBtn;
 
     public VentanaRegistroVista(String crearUsuario) {
         super(crearUsuario, Modality.APPLICATION_MODAL);

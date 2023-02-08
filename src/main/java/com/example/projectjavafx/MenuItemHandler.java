@@ -9,13 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MenuItemHandler implements EventHandler<ActionEvent> {
-    private Map<String, Runnable> actions;
+    private final Map<String, Runnable> actions;
 
     public MenuItemHandler() {
         actions = new HashMap<>();
 
-        actions.put("Register", new Runnable(){
-
+        actions.put("Register", new Runnable() {
             @Override
             public void run() {
                 try {
@@ -31,7 +30,7 @@ public class MenuItemHandler implements EventHandler<ActionEvent> {
             public void run() {
                 if (Session.getInstance().isLoggedIn())
                     Session.getInstance().logout();
-                    System.out.println("Logout");
+                System.out.println("Logout");
             }
         });
         actions.put("Nuevo Usuario", new Runnable() {

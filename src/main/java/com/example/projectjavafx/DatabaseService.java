@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DatabaseService {
 
-    private Database db;
+    private final Database db;
 
     public DatabaseService() {
         try {
@@ -19,7 +19,7 @@ public class DatabaseService {
         return db.createUser(username, password);
     }
 
-    public boolean checkPassword(String username, String password) throws SQLException {
+    public boolean checkPassword(String username, String password) {
         return db.checkPassword(username, password);
     }
 
@@ -27,7 +27,7 @@ public class DatabaseService {
         return db.userExist(username);
     }
 
-    public boolean isAdmin(String username) throws SQLException {
+    public boolean isAdmin(String username) {
         return db.isAdmin(username);
     }
 
