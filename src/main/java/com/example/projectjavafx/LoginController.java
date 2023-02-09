@@ -29,7 +29,7 @@ public class LoginController {
         if (userServices.validateUser(userLogin.getText(), passLogin.getText())) {
             System.out.println("Login OK");
             Session session = Session.getInstance();
-            session.setIsLoggedIn(true);
+            session.setUserActive(userLogin.getText(), true);
             session.setUsername(userLogin.getText());
             session.setIsAdmin(userServices.isAdmin(userLogin.getText()));
             Session.getInstance().getApp().showHomePage();

@@ -28,8 +28,10 @@ public class MenuItemHandler implements EventHandler<ActionEvent> {
         actions.put("Logout", new Runnable() {
             @Override
             public void run() {
-                if (Session.getInstance().isLoggedIn())
+                if (Session.getInstance().checkIsActive(Session.getInstance().getUsername())) {
                     Session.getInstance().logout();
+                    Session.getInstance().setUserActive(Session.getInstance().getUsername(), false);
+                }
                 System.out.println("Logout");
             }
         });
