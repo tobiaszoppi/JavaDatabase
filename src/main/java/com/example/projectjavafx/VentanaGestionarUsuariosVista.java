@@ -21,6 +21,7 @@ public class VentanaGestionarUsuariosVista extends VentanaBase {
         inicializarTabla();
         agregarDatosATabla();
         agregarBotonEliminar();
+        agregarInfoAdmin();
         mostrarVentana();
     }
     private void inicializarTabla() {
@@ -53,6 +54,38 @@ public class VentanaGestionarUsuariosVista extends VentanaBase {
                         Usuario usuario = getTableView().getItems().get(getIndex());
                         try {
                             controller.deleteUsuario(usuario);
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    private void agregarInfoAdmin() {
+        if (Session.getInstance().isAdmin()) {
+            TableColumn<Usuario, Button> colBoton = new TableColumn<>("Change User Type");
+            TableColumn<Usuario, String> colInfo = new TableColumn<>("User Type");
+            tablaUsuarios.getColumns().add(colBoton);
+            tablaUsuarios.getColumns().add(colInfo);
+
+            colInfo.setCellValueFactory(new PropertyValueFactory<>("isAdmin"));
+            colBoton.setCellFactory(param -> new TableCell<>() {
+                private final Button adminButton = new Button("Admin");
+
+                @Override
+                protected void updateItem(Button item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                        return;
+                    }
+                    setGraphic(adminButton);
+                    adminButton.setOnAction(event -> {
+                        Usuario usuario = getTableView().getItems().get(getIndex());
+                        try {
+                            controller.setAdmin(usuario);
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }

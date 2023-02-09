@@ -9,24 +9,24 @@ import javafx.scene.layout.VBox;
 
 public class VentanaCrearUsuarioVista extends VentanaRegistroVista {
     private Label label;
-    private CheckBox checkBox1;
+    private CheckBox checkBoxAdmin;
     private CheckBox checkBox2;
     private VentanaCrearUsuarioController controller;
 
     public VentanaCrearUsuarioVista(VentanaCrearUsuarioController controller) {
-        super("Crear Usuario");
-        this.controller = controller;
-        adminView();
+    super("Crear Usuario");
+    this.controller = controller;
+    adminView();
 
-        // Agregamos el controlador a los botones
-        super.registerBtn.setOnAction(e -> controller.handleRegistration());
-        super.closeBtn.setOnAction(e -> controller.handleClose());
-    }
+    // Agregamos el controlador a los botones
+    super.registerBtn.setOnAction(e -> controller.handleRegistration());
+    super.closeBtn.setOnAction(e -> controller.handleClose());
+}
 
     public void adminView() {
         if (Session.getInstance().isAdmin()) {
             label = new Label("Crear Usuario -permissionType:Admin");
-            checkBox1 = new CheckBox("Opcion 1");
+            checkBoxAdmin = new CheckBox("Marque esta opción si desea que el usuario pueda administrar la aplicación");
             checkBox2 = new CheckBox("Opcion 2");
 
             // Para controlar la posición de los nuevos objetos en
@@ -34,7 +34,7 @@ public class VentanaCrearUsuarioVista extends VentanaRegistroVista {
             HBox labelLayout = new HBox(label);
             labelLayout.setAlignment(Pos.CENTER);
 
-            HBox checkBoxLayout = new HBox(checkBox1, checkBox2);
+            HBox checkBoxLayout = new HBox(checkBoxAdmin, checkBox2);
             checkBoxLayout.setAlignment(Pos.CENTER);
             checkBoxLayout.setSpacing(10);
 
@@ -46,5 +46,11 @@ public class VentanaCrearUsuarioVista extends VentanaRegistroVista {
 
     public Button getCloseBtn() {
         return closeBtn;
+    }
+    public CheckBox checkBoxAdmin() {
+        return checkBoxAdmin;
+    }
+    public CheckBox getCheckBox2() {
+        return checkBox2;
     }
 }

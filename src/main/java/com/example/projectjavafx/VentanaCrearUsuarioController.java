@@ -14,7 +14,7 @@ public class VentanaCrearUsuarioController {
 
     public void handleRegistration() {
         try {
-            if (userServices.handleRegistration(vista.getUser().getText(), vista.getPass().getText())) {
+            if (userServices.handleRegistration(vista.getUser().getText(), vista.getPass().getText(), vista.checkBoxAdmin().isSelected())) {
                 vista.close();
             }
         } catch (SQLException ex) {

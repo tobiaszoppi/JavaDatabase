@@ -50,4 +50,16 @@ public class VentanaGestionarUsuariosController {
             throw new SQLException("No se pudo eliminar el usuario: " + usuario.getUsername());
         }
     }
+
+    protected void setAdmin(Usuario usuario) throws SQLException {
+        if (db.setAdmin(usuario.getUsername())) {
+            if (usuario.getIsAdmin()) {
+                usuario.setIsAdmin(false);
+            } else {
+                usuario.setIsAdmin(true);
+            }
+        } else {
+            throw new SQLException("No se pudo eliminar el usuario: " + usuario.getUsername());
+        }
+    }
 }
