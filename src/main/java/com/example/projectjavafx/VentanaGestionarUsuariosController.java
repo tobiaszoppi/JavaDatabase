@@ -2,14 +2,18 @@ package com.example.projectjavafx;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.Initializable;
 
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class VentanaGestionarUsuariosController {
+public class VentanaGestionarUsuariosController implements Initializable, Observer {
     // Atributos de clase
-    private final ObservableList<Usuario> usuarios;
+    protected ObservableList<Usuario> usuarios;
+    private Session session = Session.getInstance();
     DatabaseService db = new DatabaseService();
 
     // Metodos de clase para acceder a la lista de usuarios:
@@ -22,18 +26,19 @@ public class VentanaGestionarUsuariosController {
         return usuarios;
     }
 
-    private List<Usuario> fetchUsers() throws SQLException {
+    protected List<Usuario> fetchUsers() throws SQLException {
         List<String> nombres = db.getAllNames();
         Usuario[] arrUsuarios = mapToUsuarioArray(nombres);
         sortUsuarios(arrUsuarios);
         return Arrays.asList(arrUsuarios);
     }
 
-    private Usuario[] mapToUsuarioArray(List<String> nombres) {
+    private Usuario[] mapToUsuarioArray(List<String> nombres) throws SQLException {
         Usuario[] arrUsuarios = new Usuario[nombres.size()];
         int i = 0;
         for (String nombre : nombres) {
-            arrUsuarios[i++] = new Usuario(nombre);
+            Boolean isAdmin = db.isAdmin(nombre);
+            arrUsuarios[i++] = new Usuario(nombre, isAdmin);
         }
         return arrUsuarios;
     }
@@ -46,6 +51,7 @@ public class VentanaGestionarUsuariosController {
     protected void deleteUsuario(Usuario usuario) throws SQLException {
         if (db.deleteUser(usuario.getUsername())) {
             usuarios.remove(usuario);
+            session.notifyObservers();
         } else {
             throw new SQLException("No se pudo eliminar el usuario: " + usuario.getUsername());
         }
@@ -58,8 +64,26 @@ public class VentanaGestionarUsuariosController {
             } else {
                 usuario.setIsAdmin(true);
             }
+            session.notifyObservers();
         } else {
             throw new SQLException("No se pudo eliminar el usuario: " + usuario.getUsername());
         }
+    }
+
+    @Override
+    public void update() {
+        try {
+            updateTable();
+        } catch (SQLException e) {
+            System.out.println("No se pudo actualizar la tabla");
+        }
+    }
+    public void updateTable() throws SQLException {
+        usuarios.setAll(fetchUsers());
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Session.getInstance().registerObserver(this);
     }
 }

@@ -55,10 +55,6 @@ public class Database {
 //Este método verifica si la instancia existe, y si no es así, la crea. Si ya existe, simplemente la devuelve.
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
-
     /*
     La clase "Database" también implementa métodos para acceder a los nombres de los usuarios en la base de datos,
     verificar si un usuario existe en la base de datos, crear usuarios en la base de datos,

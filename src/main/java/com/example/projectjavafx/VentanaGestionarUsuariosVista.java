@@ -10,7 +10,7 @@ import javafx.stage.Modality;
 
 import java.sql.SQLException;
 
-public class VentanaGestionarUsuariosVista extends VentanaBase {
+public class VentanaGestionarUsuariosVista extends VentanaBase implements Observer {
     private TableView<Usuario> tablaUsuarios;
     private VentanaGestionarUsuariosController controller;
 
@@ -86,6 +86,7 @@ public class VentanaGestionarUsuariosVista extends VentanaBase {
                         Usuario usuario = getTableView().getItems().get(getIndex());
                         try {
                             controller.setAdmin(usuario);
+                            updateTable();
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
@@ -100,4 +101,13 @@ public class VentanaGestionarUsuariosVista extends VentanaBase {
         window.setScene(escena);
         window.show();
     }
+
+    @Override
+    public void update() throws SQLException {
+        updateTable();
+    }
+    public void updateTable() throws SQLException {
+        controller.usuarios.setAll(controller.fetchUsers());
+    }
+
 }
