@@ -10,7 +10,7 @@ import javafx.stage.Modality;
 
 import java.sql.SQLException;
 
-public class VentanaGestionarUsuariosVista extends VentanaBase implements Observer {
+public class VentanaGestionarUsuariosVista extends VentanaBase {
     private TableView<Usuario> tablaUsuarios;
     private VentanaGestionarUsuariosController controller;
 
@@ -20,10 +20,10 @@ public class VentanaGestionarUsuariosVista extends VentanaBase implements Observ
         controller = new VentanaGestionarUsuariosController();
         inicializarTabla();
         agregarDatosATabla();
-        agregarBotonEliminar();
-        agregarInfoAdmin();
+        agregarAccionesDeAdministrador();
         mostrarVentana();
     }
+
     private void inicializarTabla() {
         tablaUsuarios = new TableView<>();
         TableColumn<Usuario, String> colNombre = new TableColumn<>("Nombre");
@@ -35,65 +35,68 @@ public class VentanaGestionarUsuariosVista extends VentanaBase implements Observ
         tablaUsuarios.setItems(controller.getUsuarios());
     }
 
-    private void agregarBotonEliminar() {
-        if (Session.getInstance().isAdmin()) {
-            TableColumn<Usuario, Button> colBoton = new TableColumn<>("Delete");
-            tablaUsuarios.getColumns().add(colBoton);
-            colBoton.setCellFactory(param -> new TableCell<>() {
-                private final Button deleteButton = new Button("Delete");
-
-                @Override
-                protected void updateItem(Button item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        return;
-                    }
-                    setGraphic(deleteButton);
-                    deleteButton.setOnAction(event -> {
-                        Usuario usuario = getTableView().getItems().get(getIndex());
-                        try {
-                            controller.deleteUsuario(usuario);
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                }
-            });
+    private void agregarAccionesDeAdministrador() {
+        if (!Session.getInstance().isAdmin()) {
+            return;
         }
+        agregarBotonEliminar();
+        agregarInfoAdmin();
+    }
+
+    private void agregarBotonEliminar() {
+        TableColumn<Usuario, Button> colBoton = new TableColumn<>("Delete");
+        tablaUsuarios.getColumns().add(colBoton);
+        colBoton.setCellFactory(param -> new TableCell<>() {
+            private final Button deleteButton = new Button("Delete");
+
+            @Override
+            protected void updateItem(Button item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                    return;
+                }
+                setGraphic(deleteButton);
+                deleteButton.setOnAction(event -> {
+                    Usuario usuario = getTableView().getItems().get(getIndex());
+                    try {
+                        controller.deleteUsuario(usuario, VentanaGestionarUsuariosVista.this);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+        });
     }
 
     private void agregarInfoAdmin() {
-        if (Session.getInstance().isAdmin()) {
-            TableColumn<Usuario, Button> colBoton = new TableColumn<>("Change User Type");
-            TableColumn<Usuario, String> colInfo = new TableColumn<>("User Type");
-            tablaUsuarios.getColumns().add(colBoton);
-            tablaUsuarios.getColumns().add(colInfo);
+        TableColumn<Usuario, Button> colBoton = new TableColumn<>("Change User Type");
+        TableColumn<Usuario, String> colInfo = new TableColumn<>("User Type");
+        tablaUsuarios.getColumns().add(colBoton);
+        tablaUsuarios.getColumns().add(colInfo);
 
-            colInfo.setCellValueFactory(new PropertyValueFactory<>("isAdmin"));
-            colBoton.setCellFactory(param -> new TableCell<>() {
-                private final Button adminButton = new Button("Admin");
+        colInfo.setCellValueFactory(new PropertyValueFactory<>("isAdmin"));
+        colBoton.setCellFactory(param -> new TableCell<>() {
+            private final Button adminButton = new Button("Admin");
 
-                @Override
-                protected void updateItem(Button item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        return;
-                    }
-                    setGraphic(adminButton);
-                    adminButton.setOnAction(event -> {
-                        Usuario usuario = getTableView().getItems().get(getIndex());
-                        try {
-                            controller.setAdmin(usuario);
-                            updateTable();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    });
+            @Override
+            protected void updateItem(Button item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                    return;
                 }
-            });
-        }
+                setGraphic(adminButton);
+                adminButton.setOnAction(event -> {
+                    Usuario usuario = getTableView().getItems().get(getIndex());
+                    try {
+                        controller.setAdmin(usuario);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+        });
     }
 
     public void mostrarVentana() {
@@ -101,13 +104,4 @@ public class VentanaGestionarUsuariosVista extends VentanaBase implements Observ
         window.setScene(escena);
         window.show();
     }
-
-    @Override
-    public void update() throws SQLException {
-        updateTable();
-    }
-    public void updateTable() throws SQLException {
-        controller.usuarios.setAll(controller.fetchUsers());
-    }
-
 }

@@ -1,8 +1,6 @@
 package com.example.projectjavafx;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /*
 La clase Session es una clase que se encarga de mantener el estado de la sesión de un usuario.
@@ -12,18 +10,16 @@ si es un administrador y una instancia de la clase DatabaseService.
 
 public class Session {
     private static Session instance = null;
-    private List<Observer> observers = new ArrayList<>();
     private static App app;
     private boolean isActive;
     private String username;
     private boolean isAdmin;
-    private DatabaseService db;
+    private DatabaseService db = new DatabaseService();
 
     public Session() {
         isActive = false;
         username = null;
         isAdmin = false;
-        db = new DatabaseService();
     }
 
     public static Session getInstance() {
@@ -31,18 +27,6 @@ public class Session {
             instance = new Session();
         }
         return instance;
-    }
-
-    public void registerObserver(Observer observer) {
-        observers.add(observer);
-    }
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
-    }
-    public void notifyObservers() throws SQLException {
-        for (Observer observer : observers) {
-            observer.update();
-        }
     }
 
     public void setApp(App app) {
@@ -58,6 +42,7 @@ public class Session {
         return username;
     }
 
+
     public boolean checkIsActive(String username) {
         try {
             isActive = db.isActive(username);
@@ -69,8 +54,9 @@ public class Session {
     }
     public boolean setUserActive(String username, boolean isActive) {
         try {
-            if (db.setIsActive(username, isActive));
+            if (db.setIsActive(username, isActive)) {
                 return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,7 +72,7 @@ public class Session {
 
     protected void logout() {
         app.showLoginScene();
-        // TODO: logout from server
         setUserActive(username, false);
+        System.out.println("Adios");
     }
 }

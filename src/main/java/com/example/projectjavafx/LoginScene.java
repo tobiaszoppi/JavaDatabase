@@ -3,6 +3,8 @@ package com.example.projectjavafx;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,6 +29,23 @@ public class LoginScene {
             Session.getInstance().setApp(app);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        stage.setOnCloseRequest(event -> {
+            event.consume();
+            logOut(stage);
+        });
+    }
+
+    public void logOut(Stage stage) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("LogOut");
+        alert.setHeaderText("Estas a punto de salir!");
+        //alert.setContentText("Desea guardar antes de salir?: ");
+
+        if(alert.showAndWait().get() == ButtonType.OK) {
+            System.out.println("Saliste exitosamente!");
+            stage.close();
         }
     }
 

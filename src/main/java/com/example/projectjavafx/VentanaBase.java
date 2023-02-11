@@ -19,4 +19,9 @@ public class VentanaBase {
     public void close() {
         window.close();
     }
+
+    public void dispose() {
+        window.close();
+        window = null;
+    }
 }

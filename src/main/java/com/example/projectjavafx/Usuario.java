@@ -1,10 +1,12 @@
 package com.example.projectjavafx;
 
+import java.sql.SQLException;
+
 public class Usuario implements Comparable<Usuario> {
     public String username;
     public boolean isAdmin;
 
-    public Usuario(String username) {
+    public Usuario(String username) throws SQLException {
         this.username = username;
         this.isAdmin = Session.getInstance().isAdmin();
     }
