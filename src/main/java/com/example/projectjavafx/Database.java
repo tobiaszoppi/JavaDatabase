@@ -30,9 +30,9 @@ public class Database {
     private final Connection connection;
 
     private Database() throws SQLException {
-        String url = "jdbc:mysql://127.0.0.1:3306/kiosco";
+        String url = "jdbc:mysql://"; // completar
         String user = "root";
-        String pass = "643851";
+        String pass = ""; // completar
         connection = DriverManager.getConnection(url, user, pass);
         // Verificar si existe la base de datos
         DatabaseMetaData dbm = connection.getMetaData();
