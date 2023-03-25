@@ -1,5 +1,6 @@
 package com.example.projectjavafx;
 
+import com.example.projectjavafx.menu.MyMenuBar;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;

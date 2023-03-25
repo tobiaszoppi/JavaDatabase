@@ -8,4 +8,10 @@ module com.example.projectjavafx {
 
     opens com.example.projectjavafx to javafx.fxml;
     exports com.example.projectjavafx;
+    exports com.example.projectjavafx.database;
+    opens com.example.projectjavafx.database to javafx.fxml;
+    exports com.example.projectjavafx.menu;
+    opens com.example.projectjavafx.menu to javafx.fxml;
+    exports com.example.projectjavafx.ventanas;
+    opens com.example.projectjavafx.ventanas to javafx.fxml;
 }

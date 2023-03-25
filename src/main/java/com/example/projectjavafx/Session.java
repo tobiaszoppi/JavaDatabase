@@ -1,5 +1,7 @@
 package com.example.projectjavafx;
 
+import com.example.projectjavafx.database.DatabaseService;
+
 import java.sql.SQLException;
 
 /*
@@ -70,7 +72,7 @@ public class Session {
         this.isAdmin = isAdmin;
     }
 
-    protected void logout() {
+    public void logout() {
         app.showLoginScene();
         setUserActive(username, false);
         System.out.println("Adios");

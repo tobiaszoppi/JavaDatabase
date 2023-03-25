@@ -1,5 +1,8 @@
 package com.example.projectjavafx;
 
+import com.example.projectjavafx.menu.MenuInfo;
+import com.example.projectjavafx.menu.MenuItemHandler;
+import com.example.projectjavafx.menu.MyMenuBar;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;

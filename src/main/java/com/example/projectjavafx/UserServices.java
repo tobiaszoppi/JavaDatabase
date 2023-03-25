@@ -1,5 +1,7 @@
 package com.example.projectjavafx;
 
+import com.example.projectjavafx.database.DatabaseService;
+
 import java.sql.SQLException;
 /*
 La clase UserServices se encarga de realizar operaciones relacionadas con los usuarios,
