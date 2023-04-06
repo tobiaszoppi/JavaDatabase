@@ -18,7 +18,7 @@
                <FlowPane.margin>
                   <Insets />
                </FlowPane.margin></PasswordField>
-                  <Button fx:id="loginBttn" mnemonicParsing="false" onAction="#onLoginBttn" text="Iniciar Sesión">
+                  <Button fx:id="loginBttn" mnemonicParsing="false" onAction="#onLoginBtn" text="Iniciar Sesión">
                <FlowPane.margin>
                   <Insets />
                </FlowPane.margin></Button>

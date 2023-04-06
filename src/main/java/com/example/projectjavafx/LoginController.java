@@ -21,12 +21,12 @@ public class LoginController {
         userServices = new UserServices();
     }
 
-    public void init(MyMenuBar menuBar) {
-        borderPane.setTop(menuBar.getMenuBar());
+    public void init(MyMenuBar myMenuBar) {
+        borderPane.setTop(myMenuBar);
     }
 
     @FXML
-    protected void onLoginBttn() throws SQLException {
+    protected void onLoginBtn() throws SQLException {
         if (userServices.validateUser(userLogin.getText(), passLogin.getText())) {
             System.out.println("Login OK");
             Session session = Session.getInstance();

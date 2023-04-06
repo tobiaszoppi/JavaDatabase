@@ -10,9 +10,9 @@ public class HomePageController {
     @FXML
     private BorderPane borderPane;
 
-    public void init(MyMenuBar menuBar, MyMenuBar menuBar2) {
+    public void init(MyMenuBar myMenuBar) {
         VBox vbox = new VBox();
-        vbox.getChildren().addAll(menuBar.getMenuBar(), menuBar2.getMenuBar());
+        vbox.getChildren().addAll(myMenuBar);
         borderPane.setTop(vbox);
     }
 }
