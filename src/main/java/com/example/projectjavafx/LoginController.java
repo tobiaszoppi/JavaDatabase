@@ -6,6 +6,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class LoginController {
@@ -26,7 +27,7 @@ public class LoginController {
     }
 
     @FXML
-    protected void onLoginBtn() throws SQLException {
+    protected void onLoginBtn() throws SQLException, IOException {
         if (userServices.validateUser(userLogin.getText(), passLogin.getText())) {
             System.out.println("Login OK");
             Session session = Session.getInstance();

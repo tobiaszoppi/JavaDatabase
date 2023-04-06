@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class App extends Application {
@@ -35,7 +36,7 @@ public class App extends Application {
         loginScene.show();
     }
 
-    protected void showHomePage() {
+    protected void showHomePage() throws IOException {
         HomePageScene homePageScene = new HomePageScene(stage);
         homePageScene.show();
     }

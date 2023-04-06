@@ -4,7 +4,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class VentanaBase {
-    Stage window;
+    protected Stage window;
 
     public VentanaBase(String title, Modality modality) {
         window = new Stage();
