@@ -41,26 +41,18 @@ public class Database {
 
     public Database() throws SQLException {
         connection = DriverManager.getConnection(url, user, pass);
-        // Verificar si existe la base de datos
-        DatabaseMetaData dbm = connection.getMetaData();
-        ResultSet tables = dbm.getTables(null, null, "kiosco", null);
-        if (tables.next()) {
-            System.out.println("Creando base de datos...");
-            try (Statement st = connection.createStatement()) {
-                st.executeUpdate("CREATE DATABASE kiosco");
-            }
-        } else {
-            System.out.println("Base de datos existente, ingresando...");
-        }
+        System.out.println("Conexión exitosa");
     }
+
+//Este método verifica si la instancia existe, y si no es así, la crea. Si ya existe, simplemente la devuelve.
 
     public static Database getInstance() throws SQLException {
         if (instance == null) {
             instance = new Database();
         }
         return instance;
-//Este método verifica si la instancia existe, y si no es así, la crea. Si ya existe, simplemente la devuelve.
     }
+
 
     /*
     La clase "Database" también implementa métodos para acceder a los nombres de los usuarios en la base de datos,
@@ -123,6 +115,7 @@ public class Database {
     protected boolean deleteUser(String username) throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement("DELETE FROM users WHERE username = ?")) {
             statement.setString(1, username);
+
             return statement.executeUpdate() == 1;
         }
     }
@@ -162,6 +155,7 @@ public class Database {
         try (PreparedStatement statement = connection.prepareStatement("UPDATE users SET isActive = ? WHERE username = ?")) {
             statement.setInt(1, isActive ? 1 : 0);
             statement.setString(2, username);
+            logAction(username, "Alteracion de Estado", "El usuario " + username + " ha cambiado su estado a " + isActive);
             return statement.executeUpdate() == 1;
         }
     }
@@ -191,6 +185,17 @@ public class Database {
                 statement.setString(1, username);
                 return statement.executeUpdate() == 1;
             }
+        }
+    }
+
+    // Auditor:
+    public boolean logAction(String username, String action, String detail) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement("INSERT INTO auditor (timestamp, username, action, detail) VALUES (?, ?, ?, ?)")) {
+            statement.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+            statement.setString(2, username);
+            statement.setString(3, action);
+            statement.setString(4, detail);
+            return statement.executeUpdate() == 1;
         }
     }
 }

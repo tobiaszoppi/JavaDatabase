@@ -51,6 +51,8 @@ public class VentanaGestionarUsuariosController {
         }
         if (db.deleteUser(usuario.getUsername())) {
             usuarios.remove(usuario);
+            db.logAction(Session.getInstance().getUsername(), "Eliminacion de Usuario", Session.getInstance().getUsername() +
+                    " ha eliminado al usuario " + usuario.getUsername());
         } else {
             throw new SQLException("No se pudo eliminar el usuario: " + usuario.getUsername());
         }
@@ -59,6 +61,8 @@ public class VentanaGestionarUsuariosController {
     protected void setAdmin(Usuario usuario) throws SQLException {
         if (db.setAdmin(usuario.getUsername())) {
             usuario.setIsAdmin(!usuario.getIsAdmin());
+            db.logAction(Session.getInstance().getUsername(), "Modificacion de Privilegios", Session.getInstance().getUsername() +
+                    " ha cambiado los privilegios de administracion del usuario " + usuario.getUsername() + " a: " + usuario.getIsAdmin());
         } else {
             throw new SQLException("No se pudo establecer el usuario como administrador: " + usuario.getUsername());
         }

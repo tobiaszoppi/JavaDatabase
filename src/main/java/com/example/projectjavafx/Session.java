@@ -18,15 +18,19 @@ public class Session {
     private boolean isAdmin;
     private DatabaseService db = new DatabaseService();
 
-    public Session() {
+    public Session() throws SQLException {
         isActive = false;
         username = null;
         isAdmin = false;
     }
 
-    public static Session getInstance() {
+    public static Session getInstance()  {
         if (instance == null) {
-            instance = new Session();
+            try {
+                instance = new Session();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         return instance;
     }

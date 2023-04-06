@@ -71,4 +71,8 @@ public class DatabaseService {
     public boolean setIsActive(String username, boolean isActive) throws SQLException {
         return db.setIsActive(username,isActive);
     }
+
+    public boolean logAction(String username, String action, String detail) throws SQLException {
+        return db.logAction(username, action, detail);
+    }
 }

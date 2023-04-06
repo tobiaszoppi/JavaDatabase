@@ -34,7 +34,6 @@ public class MenuItemHandler implements EventHandler<ActionEvent> {
             public void run() {
                 if (Session.getInstance().checkIsActive(Session.getInstance().getUsername())) {
                     Session.getInstance().logout();
-                    Session.getInstance().setUserActive(Session.getInstance().getUsername(), false);
                     System.out.println("Logout");
                 } else System.out.println("No es posible cerrar sesion si no esta activo");
             }
