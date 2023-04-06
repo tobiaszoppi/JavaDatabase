@@ -42,4 +42,12 @@ public class MyMenuBar extends MenuBar implements EventHandler<ActionEvent> {
             action.run();
         }
     }
+    /*
+        La clase MyMenuBar ahora extiende la clase MenuBar y también implementa la interfaz EventHandler<ActionEvent>.
+        La clase MenuItemHandler ya no es necesaria y se ha eliminado.
+        Los elementos de menú ahora agregan el controlador de eventos de menú directamente en el bucle for que construye el menú.
+        La clase MyMenuBar ahora tiene un HashMap de acciones que asocia las cadenas de elementos de menú con objetos de tipo Runnable que realizan tareas específicas.
+        La clase MyMenuBar tiene un nuevo método setAction que permite agregar nuevas acciones al HashMap en tiempo de ejecución.
+        El método handle de la clase MyMenuBar maneja todos los eventos de menú. Cuando se selecciona un elemento de menú, verifica si hay una acción asociada en el HashMap y la ejecuta si es así.
+     */
 }
